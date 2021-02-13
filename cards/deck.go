@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 //Create a new type, deck, which is a slice of strings
 //not an object, it just adds features to slice
@@ -8,21 +12,32 @@ type deck []string
 
 func newDeck() deck {
 	cards := deck{}
-	
+
 	cardSuits := []string{"Spades", "Hearts", "Diamonds", "Clubs"}
 	cardRanks := []string{"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"}
-	
+
 	for _, suit := range cardSuits {
 		for _, rank := range cardRanks {
-			cards = append(cards, rank + " of " + suit)
+			cards = append(cards, rank+" of "+suit)
 		}
 	}
+	return cards
 }
 
-func deal(d deck, int handSize) (deck, deck) {
+func deal(d deck, handSize int) (deck, deck) {
 	//slice range syntax is slice[beginInclusive:endExclusive]
 	//can omit either to assume beginning or end
 	return d[:handSize], d[handSize:]
+}
+
+func (d deck) toString() string {
+	//use type coercion to convert a deck to a string slice, then
+	//join the slice into a comma separated string
+	return strings.Join([]string(d), ",")
+}
+
+func (d deck) saveToFile(fileName string) error {
+	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
 }
 
 //d is a receiver. Any variable of type 'deck' now gets access to the print
