@@ -2,12 +2,11 @@ package main
 
 func main() {
 	//create a slice of type string (slice is an array with variable length)
-	cards := deck{newCard(), newCard()}
-	cards = append(cards, "Six of Spades")
+	cards := newDeck()
+	
+	hand, remainingCards = deal(cards, 5)
 
-	cards.print()
-}
-
-func newCard() string {
-	return "Five of Diamonds"
+	hand.print()
+	remainingCards.print()
+	
 }
