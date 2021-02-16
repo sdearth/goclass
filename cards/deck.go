@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 //Create a new type, deck, which is a slice of strings
@@ -61,5 +63,15 @@ func (d deck) print() {
 	// ignore it with an underscore to avoid compilation errors
 	for _, card := range d {
 		fmt.Println(card)
+	}
+}
+
+func (d deck) shuffle() {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := New(source)
+	
+	for i := range d {
+		newPosition := r.Intn(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i]
 	}
 }
