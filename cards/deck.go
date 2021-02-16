@@ -47,9 +47,9 @@ func newDeckFromFile(fileName string) deck {
 	bytes, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		fmt.Println("Error: ", err)
-		os.exit(1)
+		os.Exit(1)
 	}
-	s := strings.split(string(bytes), ",")
+	s := strings.Split(string(bytes), ",")
 	return deck(s)
 }
 
@@ -68,8 +68,8 @@ func (d deck) print() {
 
 func (d deck) shuffle() {
 	source := rand.NewSource(time.Now().UnixNano())
-	r := New(source)
-	
+	r := rand.New(source)
+
 	for i := range d {
 		newPosition := r.Intn(len(d) - 1)
 		d[i], d[newPosition] = d[newPosition], d[i]
